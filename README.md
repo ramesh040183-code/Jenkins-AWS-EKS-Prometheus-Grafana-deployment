@@ -126,9 +126,6 @@ Jenkins-AWS-EKS-Prometheus-Grafana-deployment/
 │   ├── main.tf
 │   ├── variables.tf
 │   ├── terraform.tfvars
-│   
-│   
-│
 └── README.md
 ```
 
