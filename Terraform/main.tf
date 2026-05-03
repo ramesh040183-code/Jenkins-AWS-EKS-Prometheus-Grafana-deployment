@@ -22,8 +22,11 @@ module "vpc" {
   azs             = [var.availability_zone_1, var.availability_zone_2]
   public_subnets  = [var.subnet1_cidr, var.subnet2_cidr]
 
-  enable_nat_gateway = true
-  enable_vpn_gateway = true
+  enable_dns_hostnames = true
+  enable_dns_support = true
+  
+  enable_nat_gateway = false
+  enable_vpn_gateway = false
 
   map_public_ip_on_launch = true
 
