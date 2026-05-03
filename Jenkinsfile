@@ -45,6 +45,7 @@ pipeline {
 
         stage('terraform_apply') {
             steps {
+                dir ('Terraform') {
                 withCredentials([
                     aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
                     credentialsId: 'AWS_Cred', 
@@ -61,6 +62,7 @@ pipeline {
                 terraform apply -auto-approve 
                 
                 '''
+                    }
                 }
             }
         }
