@@ -17,8 +17,7 @@ pipeline {
 
                 bat '''
 
-                git branch: 'main', 
-                    url: 'https://github.com/ramesh040183-code/Jenkins-AWS-EKS-Prometheus-Grafana-deployment.git'              
+                git branch: 'main', url: 'https://github.com/ramesh040183-code/Jenkins-AWS-EKS-Prometheus-Grafana-deployment.git'              
                 
                 '''
             }
