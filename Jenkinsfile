@@ -111,16 +111,16 @@ pipeline {
                 
                 }
             }
+        }        
+    }
+
+    post {
+        success {
+            echo "pipeline executed successfully!!"
         }
 
-        post {
-            success {
-                echo "pipeline executed successfully!!"
-            }
-
-            failure {
-                echo "failed! check logs!!"
-            }
+        failure {
+            echo "failed! check logs!!"
         }
     }
 }
