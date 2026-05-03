@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: goldenspoon-deployment
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: goldenspoon-app
+
+  template:
+    metadata:
+      labels:
+        app: goldenspoon-app
+
+    spec:
+      containers:
+        - name: goldenspoon-container
+          image: ramesh040183/goldenspoon:latest
+          ports:
+           - containerPort: 80
