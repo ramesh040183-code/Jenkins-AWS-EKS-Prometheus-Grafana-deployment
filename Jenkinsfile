@@ -6,6 +6,7 @@ pipeline {
         IMAGE_REPO  = "ramesh040183"
         IMAGE_NAME  = "goldenspoon"
         IMAGE_TAG   = "latest"
+        AWS_REGION  = "ap-south-1"
         EKS_CLUSTER = "my-cluster"
 
     }
@@ -15,7 +16,7 @@ pipeline {
             steps {
 
                 bat '''
-                
+
                 git branch 'main',
                     url: 'https://github.com/ramesh040183-code/Jenkins-AWS-EKS-Prometheus-Grafana-deployment.git'              
                 
@@ -75,7 +76,7 @@ pipeline {
                 
                 bat ''' 
                 
-                aws eks update-kubeconfig --region ap-south-1 --name %EKS_CLUSTER%
+                aws eks update-kubeconfig --region %AWS_REGION% --name %EKS_CLUSTER%
 
                 kubectl get nodes
 
