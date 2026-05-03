@@ -99,7 +99,7 @@ pipeline {
                 
                 bat ''' 
                 
-                aws eks update-kubeconfig --region ap-south-1 --name %EKS_CLUSTER%
+                aws eks update-kubeconfig --region %AWS_REGION% --name %EKS_CLUSTER%
 
                 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
                 
