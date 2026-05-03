@@ -1,0 +1,95 @@
+pipeline {
+    agent any
+
+    environment {
+
+        IMAGE_REPO  = "ramesh040183"
+        IMAGE_NAME  = "goldenspoon"
+        IMAGE_TAG   = "latest"
+        AWS_REGION  = "ap-south-1"
+        EKS_CLUSTER = "my-cluster"
+
+    }
+
+    stages {
+        stage('git_checkout') {
+            steps {
+
+                git branch: 'main', 
+                    url: 'https://github.com/ramesh040183-code/Jenkins-AWS-EKS-Prometheus-Grafana-deployment.git'              
+                
+                
+            }
+        }
+
+        stage('monitoring_uninstall') {
+            steps {
+                withCredentials([
+                    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                    credentialsId: 'AWS_Cred', 
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])  {                
+                
+                bat ''' 
+                
+                aws eks update-kubeconfig --region %AWS_REGION% --name %EKS_CLUSTER%
+
+                helm uninstall monitoring
+                                        
+                '''
+                
+                }
+            }
+        }
+
+        stage('K8S_delete') {
+            steps {
+                withCredentials([
+                    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                    credentialsId: 'AWS_Cred', 
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])  {                
+                
+                bat ''' 
+                
+                aws eks update-kubeconfig --region %AWS_REGION% --name %EKS_CLUSTER%
+
+                kubectl get nodes
+
+                kubectl delete -f K8S/deployment.yaml
+
+                kubectl delete -f K8S/service.yaml
+                                        
+                '''
+
+                }
+            }
+        }
+        
+        stage('terraform_destroy') {
+            steps {
+                dir ('Terraform') {
+                withCredentials([
+                    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                    credentialsId: 'AWS_Cred', 
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])  {                
+                
+                bat ''' 
+
+                terraform destroy -auto-approve              
+                         
+                '''
+                    }
+                }
+            }
+        }             
+    }
+
+    post {
+        success {
+            echo "pipeline executed successfully!!"
+        }
+
+        failure {
+            echo "failed! check logs!!"
+        }
+    }
+}
