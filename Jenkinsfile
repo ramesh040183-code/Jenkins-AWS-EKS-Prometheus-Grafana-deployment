@@ -53,7 +53,7 @@ pipeline {
                 
                 bat ''' 
                 
-                terraform init
+                terraform init -upgrade
 
                 terraform validate
 
