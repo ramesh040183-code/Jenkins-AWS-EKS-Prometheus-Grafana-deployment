@@ -22,6 +22,32 @@ pipeline {
             }
         }
 
+        stage('terraform_apply') {
+            steps {
+                dir ('Terraform') {
+                withCredentials([
+                    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+                    credentialsId: 'AWS_Cred', 
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])  {                
+                
+                bat ''' 
+
+                terraform destroy -auto-approve
+                
+                terraform init 
+
+                terraform validate
+
+                terraform plan
+
+                terraform apply -auto-approve 
+                
+                '''
+                    }
+                }
+            }
+        }
+
         stage('docker_build_push') {
             steps {
                 withCredentials([
@@ -39,32 +65,6 @@ pipeline {
                 docker push %IMAGE_REPO%/%IMAGE_NAME%:%IMAGE_TAG%                
                
                 '''
-                }
-            }
-        }
-
-        stage('terraform_apply') {
-            steps {
-                dir ('Terraform') {
-                withCredentials([
-                    aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
-                    credentialsId: 'AWS_Cred', 
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])  {                
-                
-                bat ''' 
-
-                terraform destroy -auto-approve
-                
-                // terraform init 
-
-                // terraform validate
-
-                // terraform plan
-
-                // terraform apply -auto-approve 
-                
-                '''
-                    }
                 }
             }
         }
