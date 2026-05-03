@@ -53,7 +53,7 @@ pipeline {
                 
                 bat ''' 
 
-                terraform destroy
+                terraform destroy -auto-approve
                 
                 // terraform init 
 
