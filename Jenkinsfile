@@ -32,11 +32,11 @@ pipeline {
                 
                 bat '''
 
-                docker build -t %IMAGE_REPO%:%IMAGE_NAME%/%IMAGE_TAG% .
+                docker build -t %IMAGE_REPO%/%IMAGE_NAME%:%IMAGE_TAG% .
 
                 echo %PASSWORD% | docker login -u %USERNAME% --password-stdin
 
-                docker push %IMAGE_REPO%:%IMAGE_NAME%/%IMAGE_TAG%                
+                docker push %IMAGE_REPO%/%IMAGE_NAME%:%IMAGE_TAG%                
                
                 '''
                 }
