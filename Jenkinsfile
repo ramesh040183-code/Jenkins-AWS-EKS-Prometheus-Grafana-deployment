@@ -52,14 +52,16 @@ pipeline {
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')])  {                
                 
                 bat ''' 
+
+                terraform destroy
                 
-                terraform init -upgrade
+                // terraform init 
 
-                terraform validate
+                // terraform validate
 
-                terraform plan
+                // terraform plan
 
-                terraform apply -auto-approve 
+                // terraform apply -auto-approve 
                 
                 '''
                     }
